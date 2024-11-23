@@ -7,9 +7,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './res/user/user.module';
 
+console.log(`.env.${process.env.NODE_ENV}`);
+
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: `.env.${process.env.NODE_ENV}`,
       isGlobal: true, // 다른 모듈에서 별도의 설정없이 환경변수 사용 가능
     }),
     TypeOrmModule.forRootAsync({
