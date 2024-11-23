@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config/dist';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { AppController } from './app.controller';
@@ -7,15 +9,19 @@ import { UserModule } from './res/user/user.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // 다른 모듈에서 별도의 설정없이 환경변수 사용 가능
+    }),
     TypeOrmModule.forRootAsync({
-      useFactory: () => ({
-        retryAttempts: 10,  // 연결 실패 시, 연결 재시도 횟수
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        retryAttempts: configService.get('NODE_ENV') === 'prod' ? 10 : 1,  // 연결 실패 시, 연결 재시도 횟수
         type: 'mysql',
-        host: 'localhost',
-        port: 3306,
-        database: 'nest',
-        username: 'root',
-        password: 'B2bjWQarzns5hao',
+        host: configService.get('DB_HOST'),
+        port: Number(configService.get('DB_PORT')),
+        database: configService.get('DB_NAME'),
+        username: configService.get('DB_USER'),
+        password: configService.get('DB_PASSWORD'),
         entites: [
           path.join(__dirname, '/entities/**/*.entity.{js, ts}'),
         ],
