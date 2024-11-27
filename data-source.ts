@@ -12,8 +12,8 @@ export const dataSource = new DataSource({
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     entities: [ // entity는 DB의 테이블을 지칭.
-        path.join(__dirname, 'src/entities/**/*.entity.ts'),
-        path.join(__dirname, 'dist/entities/**/*.entity.ts'),
+        path.join(__dirname, 'src/entities/**/*.entity.{js, ts}'),
+        path.join(__dirname, 'dist/entities/**/*.entity.{js, ts}'),
     ],
     synchronize: false,
     logging: true,

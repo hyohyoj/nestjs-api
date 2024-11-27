@@ -6,6 +6,9 @@ import * as path from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './res/user/user.module';
+import { UserEntity } from './entities/user.entity';
+import { ArticleEntity } from './entities/article.entity';
+import { CommentEntity } from './entities/comment.entity';
 
 console.log(`.env.${process.env.NODE_ENV}`);
 
@@ -25,8 +28,12 @@ console.log(`.env.${process.env.NODE_ENV}`);
         database: configService.get('DB_NAME'),
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
-        entites: [
-          path.join(__dirname, '/entities/**/*.entity.{js, ts}'),
+        // 윈도우 환경의 경우 path.join으로 entity를 가져올 시, 읽히지 않는 이슈 발생
+        // entities: [
+        //   path.join(__dirname, '/entities/**/*.entity.{js, ts}'),
+        // ],
+        entities: [
+          UserEntity, ArticleEntity, CommentEntity
         ],
         synchronize: false,
         logging: true,  // typeorm 쿼리 실행 시, 지정 DB의 쿼리문을 터미널에 보여줌
