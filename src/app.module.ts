@@ -9,6 +9,7 @@ import { UserModule } from './res/user/user.module';
 import { UserEntity } from './entities/user.entity';
 import { ArticleEntity } from './entities/article.entity';
 import { CommentEntity } from './entities/comment.entity';
+import { AuthModule } from './auth/auth.module';
 
 console.log(`.env.${process.env.NODE_ENV}`);
 
@@ -41,6 +42,7 @@ console.log(`.env.${process.env.NODE_ENV}`);
       }),
     }),
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

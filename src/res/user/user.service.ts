@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { hash } from 'bcrypt';
+import { ErrorMessages } from 'src/config/error.messages';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,7 @@ export class UserService {
         return 'User Main Page';
     }
 
+    /** 회원가입 */
     async register(email: string, password: string) {
         // 중복 유저 조회
         const existedUser = await this.userRepository.findOne({
@@ -24,7 +26,7 @@ export class UserService {
         });
 
         if (existedUser) {
-            throw new BadRequestException('이미 해당 이메일이 존재합니다.');
+            throw new BadRequestException(ErrorMessages.DUPLICATE_MEMBER);
         }
 
         // bcrypt를 이용한 password 암호화
@@ -37,5 +39,25 @@ export class UserService {
         });
 
         return user;
+    }
+
+    /** 회원 정보 조회 */
+    async getUserInfo(email: string) {
+        const user = await this.userRepository.findOne({
+            where: {
+                email: email,
+            },
+        });
+
+        if (!user) {
+            throw new BadRequestException(ErrorMessages.USER_NOT_FOUND);
+        }
+
+        return {
+            id: user.id,
+            email: user.email,
+            createDate: user.createDate,
+            updateDate: user.updateDate,
+        };
     }
 }
