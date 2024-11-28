@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nes
 import { ArticleService } from "./article.service";
 import { User } from "src/decorators/user.decorator";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { CreateArticleDto } from "src/dtos/articles/create-article.dto";
 
 @Controller('article')
 export class ArticleController {
@@ -9,10 +10,10 @@ export class ArticleController {
 
     @UseGuards(JwtAuthGuard)
     @Post()
-    async createArticle(@Body() body, @User() user) {
+    async createArticle(@Body() body: CreateArticleDto, @User() user) {
         const article = await this.articleService.createArticle(
-            body?.title,
-            body?.content,
+            body.title,
+            body.content,
             user.id,
         );
 
