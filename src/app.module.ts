@@ -11,6 +11,7 @@ import { ArticleEntity } from './entities/article.entity';
 import { CommentEntity } from './entities/comment.entity';
 import { AuthModule } from './auth/auth.module';
 import { ArticleModule } from './res/article/article.module';
+import { CommentModule } from './res/comment/comment.module';
 
 console.log(`.env.${process.env.NODE_ENV}`);
 
@@ -45,6 +46,7 @@ console.log(`.env.${process.env.NODE_ENV}`);
     UserModule,
     AuthModule,
     ArticleModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

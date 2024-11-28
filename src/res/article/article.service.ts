@@ -24,9 +24,13 @@ export class ArticleService {
 
     /** 게시글 조회 */
     async getArticle(articleId: string) {
+        // comment 테이블과 조인
         const article = await this.articleRepository.findOne({
             where: {
                 id: articleId,
+            },
+            relations: {
+                comments: true,
             },
         });
 
