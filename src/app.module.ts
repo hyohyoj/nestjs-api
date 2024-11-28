@@ -12,8 +12,9 @@ import { CommentEntity } from './entities/comment.entity';
 import { AuthModule } from './auth/auth.module';
 import { ArticleModule } from './res/article/article.module';
 import { CommentModule } from './res/comment/comment.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { undefinedToNullInterceptor } from './interceptors/undefinedToNull.interceptor';
+import { HttpExceptionFilter } from './filter/http-exception.filter';
 
 console.log(`.env.${process.env.NODE_ENV}`);
 
@@ -56,6 +57,10 @@ console.log(`.env.${process.env.NODE_ENV}`);
     {
       provide: APP_INTERCEPTOR,
       useClass: undefinedToNullInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
     },
   ],
 })
