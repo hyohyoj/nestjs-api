@@ -3,6 +3,7 @@ import { CommentEntity } from './comment.entity';
 import { CommonBigPKEntity } from "./common/common.entity";
 import { UserEntity } from './user.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
 @Entity('Article')
 export class ArticleEntity extends CommonBigPKEntity {
@@ -11,6 +12,7 @@ export class ArticleEntity extends CommonBigPKEntity {
         description: '게시글 제목',
         required: true,
     })
+    @IsString()
     @Column('varchar', { unique: false, nullable: false})
     title: string;
  
@@ -19,6 +21,7 @@ export class ArticleEntity extends CommonBigPKEntity {
         description: '게시글 내용',
         required: true,
     })
+    @IsString()
     @Column('text', { unique: false, nullable: false })
     content: string;
 

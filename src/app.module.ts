@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config/dist';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,7 +12,7 @@ import { CommentEntity } from './entities/comment.entity';
 import { AuthModule } from './auth/auth.module';
 import { ArticleModule } from './res/article/article.module';
 import { CommentModule } from './res/comment/comment.module';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { undefinedToNullInterceptor } from './interceptors/undefinedToNull.interceptor';
 import { HttpExceptionFilter } from './filter/http-exception.filter';
 
@@ -61,6 +61,10 @@ console.log(`.env.${process.env.NODE_ENV}`);
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe, // class-validator 추가 (DTO, Entity 데이터 타입 검증)
     },
   ],
 })
